@@ -1,0 +1,34 @@
+% part a qustion d 
+sympref('HeavisideAtOrigin',1);
+n = -10:1:10;
+u_n = heaviside(n);
+u_n_2 = heaviside(n - 2);
+h_n = (1/2).^(n).*u_n + (3/4).^(n).*u_n_2;
+figure(1);
+stem(n,h_n);
+title("The Pulse Response of the LTI System");
+
+% part a qustion e 
+syms h(n) H(z)  ;
+u_n = heaviside(n);
+u_n_2 = heaviside(n-2);
+h(n) = ((1/2)^n)*u_n + ((3/4)^n)*u_n_2 ;
+z_trans = ztrans(h(n));
+H(z) =  z_trans;
+disp(H(z));
+
+
+%part a qustion f 
+%we can found the zeros and poles of H(z)
+%and with the function zplan we will plost the into the unite circle
+syms z
+eqn_z = 32*z^3 - 24*(z^2)+18*z-9 ;
+eqn_p = 4*z*((2*z-1)*(4*z-3)) ;
+z = roots([32 -24 18 -9]);
+p = roots([32 -40 12 0]);
+disp(z);
+disp(p);
+zplane(z,p);
+legend('O - poles' ,'x - poles')
+grid
+
