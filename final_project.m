@@ -1,3 +1,4 @@
+
 % part a qustion d 
 sympref('HeavisideAtOrigin',1);
 n = -10:1:10;
@@ -31,4 +32,5 @@ figure(2)
 zplane(z,p);
 legend('zeros' ,'poles')
 grid
+
 
