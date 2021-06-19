@@ -55,10 +55,10 @@ H2 = fftshift(fft(h2,len));
 H3 = fftshift(fft(h3,len));
 H4 = fftshift(fft(h4,len));
 H6 = fftshift(fft(h6,len));
-Y2 = abs(X).*H2; 
-Y3 = abs(X).*H3;
-Y4 = abs(X).*H4;
-Y6 = abs(X).*H6;
+Y2 = X.*H2; 
+Y3 = X.*H3;
+Y4 = X.*H4;
+Y6 = X.*H6;
 
 figure
 plot(w,abs(Y2));
@@ -87,40 +87,30 @@ ylabel('|Y(e^{jw})|');
 
 
 %part b question e
-y2 =ifft(ifftshift(Y2));
+%we awant to use idtft to get the signal back from the Transfer function
+%of the output back into the original output , we will need to use first
+%the ifftshift and then the ifft (reverse order then the orser we used to
+%calculate the original Transfer function
+y2 = ifft(ifftshift(Y2));
 y3 = ifft(ifftshift(Y3));
 y4 = ifft(ifftshift(Y4));
 y6 = ifft(ifftshift(Y6));
 
 
 figure
-plot(n(1:100),y2(1:100));
-hold on 
-plot(n,x);
-hold off 
-title('y2');
+stem(n,y2);
+hold on
+stem(n,y3);
+stem(n,y4);
+stem(n,y6);
+stem(n,x);
+hold off
+xlim([-15 15]);
+ylim([-2.2 2.2])
+title('y2 y3 y4 y6 as compared to x');
+legend('y2','y3','y4','y6','x');
 xlabel('n');
-ylabel('|Y(e^{jw})|');
-% 
-% figure
-% plot(n,y3);
-% title('y3');
-% xlabel('n');
-% ylabel('|Y(e^{jw})|');
-% 
-% figure
-% plot(n,y4);
-% title('y4');
-% xlabel('n');
-% ylabel('');
-% 
-% 
-% figure
-% plot(n,y6);
-% title('y6');
-% xlabel('n');
-% ylabel('|Y(e^{jw})|');
-
+ylabel('y');
 
 
 
