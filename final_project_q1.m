@@ -7,6 +7,7 @@ u_n_2 = heaviside(n - 2);
 h_n = (1/2).^(n).*u_n + (3/4).^(n).*u_n_2;
 figure(1);
 stem(n,h_n);
+ylim([0 1.1]);
 title("The Pulse Response of the LTI System");
 
 % part a qustion e 
@@ -31,6 +32,7 @@ p = roots([32 -40 12 0]); %calculates the roots of the denominator
 figure(2)
 zplane(z,p);
 legend('zeros' ,'poles')
+title('zeros and poles map');
 grid
 
 

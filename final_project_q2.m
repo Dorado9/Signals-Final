@@ -1,6 +1,8 @@
 load('LPF.mat');
 
 %Part b question a
+% we will use the fft and fftshift functions to calculate all the Transfer
+% functions of hi
 n = length(h2);
 w = linspace(-pi,pi,n);
 H2 = fftshift(fft(h2));
@@ -37,7 +39,7 @@ ylabel('|H(e^{jw})|');
 n = -10000:10000-1;
 len = length(n);
 w = linspace(-pi,pi,len);
-x = 2.*cos(3*pi.*n./10).*cos(pi.*n./10);
+x = 2*cos(3*pi*n/10).*cos(pi*n/10);
 X = fftshift(fft(x));
 figure
 plot(w,abs(X));
@@ -98,15 +100,15 @@ y6 = ifft(ifftshift(Y6));
 
 
 figure
-stem(n,y2);
+plot(n,y2);
 hold on
-stem(n,y3);
-stem(n,y4);
-stem(n,y6);
-stem(n,x);
+plot(n,y3);
+plot(n,y4);
+plot(n,y6);
+plot(n,x);
 hold off
 xlim([-15 15]);
-ylim([-2.2 2.2])
+ylim([-1.5 2.02])
 title('y2 y3 y4 y6 as compared to x');
 legend('y2','y3','y4','y6','x');
 xlabel('n');
