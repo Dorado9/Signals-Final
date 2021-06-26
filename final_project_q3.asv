@@ -36,15 +36,15 @@ x2_n = x_sample(T,x2,2,w);
 
 
 %Part c question e 
+sym t
 x1_new = zeros(1,20000);
 x2_new = zeros(1,20000);
-
-
-%now we make all the LPF for the diffrent kinds of reconstructions 
+x1_foh = zeros(1,20000);
+x2_foh = zeros(1,20000);
 h_r = sinc(t/T);
 h_0 = zeros(1,20000);
 h_0(1:T) = 1;
-h_1 = tripuls(t,2*T);
+h_1 = triangularPulse(-T,0,T,t);
 
 
 
@@ -56,15 +56,17 @@ for i = 1 : 20000 % padding the xi sampled with zeros between two sample so we c
     end
 end
 
-%reconstructions with convolution and fft and ifft
+
+xlim([-40 40]);
 x_ideal_r_1 = conv(x1_new,h_r,'same');
 x_ideal_r_2 = conv(x2_new,h_r,'same'); 
 X1_zoh = fftshift(fft(x1_new)).* fftshift(fft(h_0));
 x1_zoh = ifft(ifftshift(X1_zoh));
 X2_zoh = fftshift(fft(x2_new)).* fftshift(fft(h_0));
 x2_zoh = ifft(ifftshift(X2_zoh));
-x1_foh = conv(x1_new,h_1,'same'); 
-x2_foh = conv(x2_new,h_1,'same'); 
+H_1 = T*(sinc(Omega*T/(2*pi)).^2);
+X1_foh = fftshift(fft(x1_new).*fft ;
+x1_foh = ifft(ifftshift(X1_foh));
 
 figure
 plot(t,x_ideal_r_1,"--",'LineWidth',2);
@@ -114,7 +116,7 @@ title("zoh reconstructions of the signal x2");
 xlim([-40 40]);
 
 figure
-plot(t,x1_foh);
+stairs(t,x1_foh);
 hold on
 plot(t,x1);
 hold off
@@ -122,17 +124,6 @@ xlabel('t[sec]');
 legend('x foh 1','x1');
 ylabel('x');
 title("foh reconstructions of the signal x1");
-xlim([-40 40]);
-
-figure
-plot(t,x2_foh);
-hold on
-plot(t,x2);
-hold off
-xlabel('t[sec]');
-legend('x foh 2','x2');
-ylabel('x');
-title("foh reconstructions of the signal x2");
 xlim([-40 40]);
 
 
