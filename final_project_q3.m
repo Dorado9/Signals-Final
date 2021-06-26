@@ -41,10 +41,10 @@ x2_new = zeros(1,20000);
 
 
 %now we make all the LPF for the diffrent kinds of reconstructions 
-h_r = sinc(t/T);
-h_0 = zeros(1,20000);
-h_0(1:T) = 1;
-h_1 = tripuls(t,2*T);
+h_r = sinc(t/T); % for the ideal 
+h_0 = zeros(1,20000); %
+h_0(1:T) = 1; %for the zoh
+h_1 = tripuls(t,2*T); % for the foh
 
 
 
@@ -57,6 +57,7 @@ for i = 1 : 20000 % padding the xi sampled with zeros between two sample so we c
 end
 
 %reconstructions with convolution and fft and ifft
+
 x_ideal_r_1 = conv(x1_new,h_r,'same');
 x_ideal_r_2 = conv(x2_new,h_r,'same'); 
 X1_zoh = fftshift(fft(x1_new)).* fftshift(fft(h_0));
@@ -66,6 +67,7 @@ x2_zoh = ifft(ifftshift(X2_zoh));
 x1_foh = conv(x1_new,h_1,'same'); 
 x2_foh = conv(x2_new,h_1,'same'); 
 
+% all the plots of the diffrent mathods with the original signals
 figure
 plot(t,x_ideal_r_1,"--",'LineWidth',2);
 hold on 
@@ -149,4 +151,7 @@ function x_n = x_sample(T,x,y,w)
     ylabel('| X(e^{jw}) |');
     xlim([-4 4]);
 end
+
+
+
 
