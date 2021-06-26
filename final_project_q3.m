@@ -13,26 +13,23 @@ figure
 plot(omega,abs(X1));
 title('X1');
 xlabel('\Omega [rad/sec]');
-ylabel('| X(j\Omega) |');
+ylabel('|X(j\Omega)|');
 ylim([0 8]);
 
 figure
 plot(omega,abs(X2));
 title('X2');
 xlabel('\Omega [rad/sec]');
-ylabel('| X(j\Omega) |');
+ylabel('|X(j\Omega)|');
 
 %Part c question d
-% we will pick Ts = 2 , amd we will smaple the original signals every 2
+% we will pick Ts = 2, amd we will smaple the original signals every 2
 % sec , and put it in our new discrete signals 
-T = 2 ; 
-n = -5000:5000 -1;
+T = 2; 
+n = -5000:5000-1;
 w = linspace(-pi,pi,length(n));
 x1_n = x_sample(T,x1,1,w);
 x2_n = x_sample(T,x2,2,w);
-
-
-
 
 
 %Part c question e 
@@ -47,7 +44,6 @@ h_0(1:T) = 1; %for the zoh
 h_1 = tripuls(t,2*T); % for the foh
 
 
-
 for i = 1 : 20000 % padding the xi sampled with zeros between two sample so we could get 
     %a vector of the same size of the original xi vector
     if (mod(i,T) == 0)
@@ -60,83 +56,125 @@ end
 
 x_ideal_r_1 = conv(x1_new,h_r,'same');
 x_ideal_r_2 = conv(x2_new,h_r,'same'); 
-X1_zoh = fftshift(fft(x1_new)).* fftshift(fft(h_0));
+X1_zoh = fftshift(fft(x1_new)).*fftshift(fft(h_0));
 x1_zoh = ifft(ifftshift(X1_zoh));
-X2_zoh = fftshift(fft(x2_new)).* fftshift(fft(h_0));
+X2_zoh = fftshift(fft(x2_new)).*fftshift(fft(h_0));
 x2_zoh = ifft(ifftshift(X2_zoh));
 x1_foh = conv(x1_new,h_1,'same'); 
-x2_foh = conv(x2_new,h_1,'same'); 
+x2_foh = conv(x2_new,h_1,'same');
+
+plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_foh);
+
+
+%Part c question F
+%section D
+T = 9; 
+n = -5000:5000-1;
+w = linspace(-pi,pi,length(n));
+x1_n = x_sample(T,x1,1,w);
+x2_n = x_sample(T,x2,2,w);
+
+%section E
+x1_new = zeros(1,20000);
+x2_new = zeros(1,20000);
+
+h_r = sinc(t/T); % for the ideal 
+h_0 = zeros(1,20000);
+h_0(1:T) = 1; %for the zoh
+h_1 = tripuls(t,2*T); % for the foh
+
+for i = 1 : 20000
+    %a vector of the same size of the original xi vector
+    if (mod(i,T) == 0)
+        x1_new(i) = x1_n(i/T);
+        x2_new(i) = x2_n(i/T);
+    end
+end
+
+x_ideal_r_1 = conv(x1_new,h_r,'same');
+x_ideal_r_2 = conv(x2_new,h_r,'same'); 
+X1_zoh = fftshift(fft(x1_new)).*fftshift(fft(h_0));
+x1_zoh = ifft(ifftshift(X1_zoh));
+X2_zoh = fftshift(fft(x2_new)).*fftshift(fft(h_0));
+x2_zoh = ifft(ifftshift(X2_zoh));
+x1_foh = conv(x1_new,h_1,'same'); 
+x2_foh = conv(x2_new,h_1,'same');
+
+plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_foh);
+
 
 % all the plots of the diffrent mathods with the original signals
-figure
-plot(t,x_ideal_r_1,"--",'LineWidth',2);
-hold on 
-plot(t,x1);
-hold off
-xlabel('t[sec]');
-legend('x ideal r 1','x1');
-ylabel('x');
-title("ideal reconstruction of the signal x1");
-xlim([-40 40]);
+function plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_foh)
+
+    figure
+    plot(t,x_ideal_r_1,"--",'LineWidth',2);
+    hold on 
+    plot(t,x1);
+    hold off
+    xlabel('t[sec]');
+    legend('x ideal r 1','x1');
+    ylabel('x');
+    title("ideal reconstruction of the signal x1");
+    xlim([-40 40]);
 
 
-figure
-plot(t,x_ideal_r_2,"--",'LineWidth',2);
-hold on
-plot(t,x2);
-hold off 
-xlabel('t[sec]');
-legend('x ideal r 2','x2');
-ylabel('x');
-title("ideal reconstruction of the signal x2");
-xlim([-40 40]);
+    figure
+    plot(t,x_ideal_r_2,"--",'LineWidth',2);
+    hold on
+    plot(t,x2);
+    hold off 
+    xlabel('t[sec]');
+    legend('x ideal r 2','x2');
+    ylabel('x');
+    title("ideal reconstruction of the signal x2");
+    xlim([-40 40]);
 
 
-figure
-stairs(t,x1_zoh,"--",'LineWidth',2);
-hold on
-plot(t,x1);
-hold off
-xlabel('t[sec]');
-legend('x zoh 1','x1');
-ylabel('x');
-title("zoh reconstruction of the signal x1");
-xlim([-40 40]);
+    figure
+    stairs(t,x1_zoh,"--",'LineWidth',2);
+    hold on
+    plot(t,x1);
+    hold off
+    xlabel('t[sec]');
+    legend('x zoh 1','x1');
+    ylabel('x');
+    title("zoh reconstruction of the signal x1");
+    xlim([-40 40]);
 
 
-figure
-stairs(t,x2_zoh,"--",'LineWidth',2);
-hold on
-plot(t,x2);
-hold off
-xlabel('t[sec]');
-legend('x zoh 2','x2');
-ylabel('x');
-title("zoh reconstruction of the signal x2");
-xlim([-40 40]);
+    figure
+    stairs(t,x2_zoh,"--",'LineWidth',2);
+    hold on
+    plot(t,x2);
+    hold off
+    xlabel('t[sec]');
+    legend('x zoh 2','x2');
+    ylabel('x');
+    title("zoh reconstruction of the signal x2");
+    xlim([-40 40]);
 
-figure
-plot(t,x1_foh,"--",'LineWidth',2);
-hold on
-plot(t,x1);
-hold off
-xlabel('t[sec]');
-legend('x foh 1','x1');
-ylabel('x');
-title("foh reconstruction of the signal x1");
-xlim([-40 40]);
+    figure
+    plot(t,x1_foh,"--",'LineWidth',2);
+    hold on
+    plot(t,x1);
+    hold off
+    xlabel('t[sec]');
+    legend('x foh 1','x1');
+    ylabel('x');
+    title("foh reconstruction of the signal x1");
+    xlim([-40 40]);
 
-figure
-plot(t,x2_foh,"--",'LineWidth',2);
-hold on
-plot(t,x2);
-hold off
-xlabel('t[sec]');
-legend('x foh 2','x2');
-ylabel('x');
-title("foh reconstruction of the signal x2");
-xlim([-40 40]);
-
+    figure
+    plot(t,x2_foh,"--",'LineWidth',2);
+    hold on
+    plot(t,x2);
+    hold off
+    xlabel('t[sec]');
+    legend('x foh 2','x2');
+    ylabel('x');
+    title("foh reconstruction of the signal x2");
+    xlim([-40 40]);
+end
 
 function x_n = x_sample(T,x,y,w)
     x_n = zeros(1,10000);
@@ -151,7 +189,3 @@ function x_n = x_sample(T,x,y,w)
     ylabel('| X(e^{jw}) |');
     xlim([-4 4]);
 end
-
-
-
-
