@@ -76,7 +76,7 @@ hold off
 xlabel('t[sec]');
 legend('x ideal r 1','x1');
 ylabel('x');
-title("ideal reconstructions of the signal x1");
+title("ideal reconstruction of the signal x1");
 xlim([-40 40]);
 
 
@@ -88,53 +88,53 @@ hold off
 xlabel('t[sec]');
 legend('x ideal r 2','x2');
 ylabel('x');
-title("ideal reconstructions of the signal x2");
+title("ideal reconstruction of the signal x2");
 xlim([-40 40]);
 
 
 figure
-stairs(t,x1_zoh);
+stairs(t,x1_zoh,"--",'LineWidth',2);
 hold on
 plot(t,x1);
 hold off
 xlabel('t[sec]');
 legend('x zoh 1','x1');
 ylabel('x');
-title("zoh reconstructions of the signal x1");
+title("zoh reconstruction of the signal x1");
 xlim([-40 40]);
 
 
 figure
-stairs(t,x2_zoh);
+stairs(t,x2_zoh,"--",'LineWidth',2);
 hold on
 plot(t,x2);
 hold off
 xlabel('t[sec]');
 legend('x zoh 2','x2');
 ylabel('x');
-title("zoh reconstructions of the signal x2");
+title("zoh reconstruction of the signal x2");
 xlim([-40 40]);
 
 figure
-plot(t,x1_foh);
+plot(t,x1_foh,"--",'LineWidth',2);
 hold on
 plot(t,x1);
 hold off
 xlabel('t[sec]');
 legend('x foh 1','x1');
 ylabel('x');
-title("foh reconstructions of the signal x1");
+title("foh reconstruction of the signal x1");
 xlim([-40 40]);
 
 figure
-plot(t,x2_foh);
+plot(t,x2_foh,"--",'LineWidth',2);
 hold on
 plot(t,x2);
 hold off
 xlabel('t[sec]');
 legend('x foh 2','x2');
 ylabel('x');
-title("foh reconstructions of the signal x2");
+title("foh reconstruction of the signal x2");
 xlim([-40 40]);
 
 
