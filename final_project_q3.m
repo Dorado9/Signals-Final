@@ -86,12 +86,12 @@ plot_rec(x1, x2, x1_new, x2_new, h_r, h_0, h_1, t, T);
 function plot_rec(x1, x2, x1_new, x2_new, h_r, h_0, h_1, t, T)
     %reconstructions with convolution and fft and ifft
     x_ideal_r_1 = conv(x1_new,h_r,'same');
-    x_ideal_r_2 = conv(x2_new,h_r,'same'); 
+    x_ideal_r_2 = conv(x2_new,h_r,'same');
     X1_zoh = fftshift(fft(x1_new)).*fftshift(fft(h_0));
     x1_zoh = ifft(ifftshift(X1_zoh));
     X2_zoh = fftshift(fft(x2_new)).*fftshift(fft(h_0));
     x2_zoh = ifft(ifftshift(X2_zoh));
-    x1_foh = conv(x1_new,h_1,'same'); 
+    x1_foh = conv(x1_new,h_1,'same');
     x2_foh = conv(x2_new,h_1,'same');
 
     figure
