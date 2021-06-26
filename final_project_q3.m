@@ -26,9 +26,13 @@ ylabel('| X(j\Omega) |');
 % we will pick Ts = 2 , amd we will smaple the original signals every 2
 % sec , and put it in our new discrete signals 
 T = 2 ; 
+n = -5000:5000 -1;
 w = linspace(-pi,pi,length(n));
 x1_n = x_sample(T,x1,1,w);
 x2_n = x_sample(T,x2,2,w);
+
+
+
 
 
 %Part c question e 
@@ -48,25 +52,34 @@ for i = 1 : 20000
         x2_new(i) = x2_n(i/T);
     end
 end
+xlim([-40 40]);
 x_ideal_r_1 = conv(x1_new,h_r,'same');
 x_ideal_r_2 = conv(x2_new,h_r,'same'); 
 x1_zoh = conv(x1_new,h_0,'same');
 x2_zoh = conv(x2_new,h_0,'same');
 figure
-% stairs(t,x_ideal_r_1);
-% hold on 
+plot(t,x_ideal_r_1,"--",'LineWidth',2);
+hold on 
 % plot(t,x_ideal_r_2);
-stairs(t,x1_zoh);
-hold on
-plot(t,x2_zoh);
-% stairs(t,x1);
-% plot(t,x2);
-hold off 
+%stairs(t,x1_zoh);
+% hold on
+% stairs(t,x2_zoh);
+plot(t,x1);
+hold off
 xlabel('t[sec]');
-% legend('x ideal r 1','x ideal r 2','x1 zoh','x2 zoh','x1','x2');
+legend('x ideal r 1','x1');
 ylabel('x');
 title("reconstructions of the signals x1 and x2");
-ylim([-5*10^-5 5*10^-4])
+xlim([-40 40]);
+figure
+plot(t,x_ideal_r_2,"--",'LineWidth',2);
+hold on
+plot(t,x2);
+hold off 
+xlabel('t[sec]');
+legend('x ideal r 2','x2');
+ylabel('x');
+title("reconstructions of the signals x1 and x2");
 xlim([-40 40]);
 
 
