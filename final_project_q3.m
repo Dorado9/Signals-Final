@@ -1,7 +1,7 @@
 %Part c question a 
 % as we did in part 2 we will use the fft and fftshift to  calculate all the Transfer
 % functions of xi
-t = -10000:10000-1;
+t = -9000:9000-1;
 x1 = sinc(t/6);
 x2 = cos(pi/12*t)+sin(pi/6*t);
 X1 = fftshift(fft(x1));
@@ -26,25 +26,25 @@ ylabel('|X(j\Omega)|');
 % we will pick Ts = 2, amd we will smaple the original signals every 2
 % sec , and put it in our new discrete signals 
 T = 2; 
-n = -5000:5000-1;
+n = -4500:4500-1;
 w = linspace(-pi,pi,length(n));
-x1_n = x_sample(T,x1,1,w);
-x2_n = x_sample(T,x2,2,w);
+x1_n = x_sample(T,x1,1,w,n);
+x2_n = x_sample(T,x2,2,w,n);
 
 
 %Part c question e 
-x1_new = zeros(1,20000);
-x2_new = zeros(1,20000);
+x1_new = zeros(1,18000);
+x2_new = zeros(1,18000);
 
 
 %now we make all the LPF for the diffrent kinds of reconstructions 
 h_r = sinc(t/T); % for the ideal 
-h_0 = zeros(1,20000); %
+h_0 = zeros(1,18000); %
 h_0(1:T) = 1; %for the zoh
 h_1 = tripuls(t,2*T); % for the foh
 
 
-for i = 1 : 20000 % padding the xi sampled with zeros between two sample so we could get 
+for i = 1 : 18000 % padding the xi sampled with zeros between two sample so we could get 
     %a vector of the same size of the original xi vector
     if (mod(i,T) == 0)
         x1_new(i) = x1_n(i/T);
@@ -63,27 +63,27 @@ x2_zoh = ifft(ifftshift(X2_zoh));
 x1_foh = conv(x1_new,h_1,'same'); 
 x2_foh = conv(x2_new,h_1,'same');
 
-plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_foh);
+plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_foh,t,T);
 
 
 %Part c question F
 %section D
 T = 9; 
-n = -5000:5000-1;
+n = -1000:1000-1;
 w = linspace(-pi,pi,length(n));
-x1_n = x_sample(T,x1,1,w);
-x2_n = x_sample(T,x2,2,w);
+x1_n = x_sample(T,x1,1,w,n);
+x2_n = x_sample(T,x2,2,w,n);
 
 %section E
-x1_new = zeros(1,20000);
-x2_new = zeros(1,20000);
+x1_new = zeros(1,18000);
+x2_new = zeros(1,18000);
 
 h_r = sinc(t/T); % for the ideal 
-h_0 = zeros(1,20000);
+h_0 = zeros(1,18000);
 h_0(1:T) = 1; %for the zoh
 h_1 = tripuls(t,2*T); % for the foh
 
-for i = 1 : 20000
+for i = 1 : 18000
     %a vector of the same size of the original xi vector
     if (mod(i,T) == 0)
         x1_new(i) = x1_n(i/T);
@@ -100,11 +100,11 @@ x2_zoh = ifft(ifftshift(X2_zoh));
 x1_foh = conv(x1_new,h_1,'same'); 
 x2_foh = conv(x2_new,h_1,'same');
 
-plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_foh);
+plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_foh,t,T);
 
 
 % all the plots of the diffrent mathods with the original signals
-function plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_foh)
+function plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_foh,t,T)
 
     figure
     plot(t,x_ideal_r_1,"--",'LineWidth',2);
@@ -114,7 +114,7 @@ function plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_f
     xlabel('t[sec]');
     legend('x ideal r 1','x1');
     ylabel('x');
-    title("ideal reconstruction of the signal x1");
+    title("ideal reconstruction of the signal x1, T = " +T);
     xlim([-40 40]);
 
 
@@ -126,7 +126,7 @@ function plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_f
     xlabel('t[sec]');
     legend('x ideal r 2','x2');
     ylabel('x');
-    title("ideal reconstruction of the signal x2");
+    title("ideal reconstruction of the signal x2, T = " +T);
     xlim([-40 40]);
 
 
@@ -138,7 +138,7 @@ function plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_f
     xlabel('t[sec]');
     legend('x zoh 1','x1');
     ylabel('x');
-    title("zoh reconstruction of the signal x1");
+    title("zoh reconstruction of the signal x1, T = " +T);
     xlim([-40 40]);
 
 
@@ -150,7 +150,7 @@ function plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_f
     xlabel('t[sec]');
     legend('x zoh 2','x2');
     ylabel('x');
-    title("zoh reconstruction of the signal x2");
+    title("zoh reconstruction of the signal x2, T = " +T);
     xlim([-40 40]);
 
     figure
@@ -161,7 +161,7 @@ function plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_f
     xlabel('t[sec]');
     legend('x foh 1','x1');
     ylabel('x');
-    title("foh reconstruction of the signal x1");
+    title("foh reconstruction of the signal x1, T = " +T);
     xlim([-40 40]);
 
     figure
@@ -172,19 +172,19 @@ function plot_rec(x1, x2, x_ideal_r_1, x_ideal_r_2, x1_zoh, x2_zoh, x1_foh, x2_f
     xlabel('t[sec]');
     legend('x foh 2','x2');
     ylabel('x');
-    title("foh reconstruction of the signal x2");
+    title("foh reconstruction of the signal x2, T = " +T);
     xlim([-40 40]);
 end
 
-function x_n = x_sample(T,x,y,w)
-    x_n = zeros(1,10000);
-    for i = 1 : 10000 % sampling the continues signal every T sec  
+function x_n = x_sample(T,x,y,w,n)
+    x_n = zeros(1,length(n));
+    for i = 1 : length(n)  % sampling the continues signal every T sec  
         x_n(i) = x(i*T);
     end
     X_n = fftshift(fft(x_n));
     figure
     plot(w,abs(X_n));
-    title("X" +y);
+    title("X" +y +", T = " +T);
     xlabel('\Omega [rad/sec]');
     ylabel('| X(e^{jw}) |');
     xlim([-4 4]);
