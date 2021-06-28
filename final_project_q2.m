@@ -1,6 +1,6 @@
 load('LPF.mat');
 
-%Part b question a
+%Part b section a
 % we will use the fft and fftshift functions to calculate all the Transfer
 % functions of hi
 n = length(h2);
@@ -10,30 +10,10 @@ H3 = fftshift(fft(h3));
 H4 = fftshift(fft(h4));
 H6 = fftshift(fft(h6));
 
-
-figure
-plot(w,abs(H2));
-title('h2');
-xlabel('w [rad/sec]');
-ylabel('|H(e^{jw})|');
-
-figure
-plot(w,abs(H3));
-title('h3');
-xlabel('w [rad/sec]');
-ylabel('|H(e^{jw})|');
-
-figure
-plot(w,abs(H4));
-title('h4');
-xlabel('w [rad/sec]');
-ylabel('|H(e^{jw})|');
-
-figure
-plot(w,abs(H6));
-title('h6');
-xlabel('w [rad/sec]');
-ylabel('|H(e^{jw})|');
+plot_a('h2', w, H2, '|H(e^{jw})|');
+plot_a('h3', w, H3, '|H(e^{jw})|');
+plot_a('h4', w, H4, '|H(e^{jw})|');
+plot_a('h6', w, H6, '|H(e^{jw})|');
 
 %part b question b 
 n = -10000:10000-1;
@@ -44,11 +24,11 @@ X = fftshift(fft(x));
 figure
 plot(w,abs(X));
 title('X');
-xlabel('w [rad/sec]');
+xlabel('\omega [rad/samp]');
 ylabel('|X(e^{jw})|');
  
 
-%part b question d
+%part b section d
 %we used the n paramter of the fft function to make Hi the same size as X
 %its just adding zeros to the original vector Hi we do it 
 %so we could use element by element multiplication in matlab to find the
@@ -62,30 +42,10 @@ Y3 = X.*H3;
 Y4 = X.*H4;
 Y6 = X.*H6;
 
-figure
-plot(w,abs(Y2));
-title('Y2');
-xlabel('w [rad/sec]');
-ylabel('|Y(e^{jw})|');
-
-figure
-plot(w,abs(Y3));
-title('Y3');
-xlabel('w [rad/sec]');
-ylabel('|Y(e^{jw})|');
-
-figure
-plot(w,abs(Y4));
-title('Y4');
-xlabel('w [rad/sec]');
-ylabel('|Y(e^{jw})|');
-
-
-figure
-plot(w,abs(Y6));
-title('Y6');
-xlabel('w [rad/sec]');
-ylabel('|Y(e^{jw})|');
+plot_a('Y2', w, Y2, '|Y(e^{jw})|');
+plot_a('Y3', w, Y3, '|Y(e^{jw})|');
+plot_a('Y4', w, Y4, '|Y(e^{jw})|');
+plot_a('Y6', w, Y6, '|Y(e^{jw})|');
 
 
 %part b question e
@@ -97,7 +57,6 @@ y2 = ifft(ifftshift(Y2));
 y3 = ifft(ifftshift(Y3));
 y4 = ifft(ifftshift(Y4));
 y6 = ifft(ifftshift(Y6));
-
 
 figure
 plot(n,y2);
@@ -114,6 +73,10 @@ legend('y2','y3','y4','y6','x');
 xlabel('n');
 ylabel('y');
 
-
-
-
+function plot_a(g_title, w, Y, ylab)
+    figure
+    plot(w,abs(Y));
+    title(g_title);
+    xlabel('\omega [rad/samp]');
+    ylabel(ylab);
+end

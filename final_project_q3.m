@@ -11,14 +11,14 @@ omega = linspace(-pi,pi,length(t));
 figure
 plot(omega,abs(X1));
 title('X1');
-xlabel('\Omega [rad/sec]');
+xlabel('\Omega [rad/samp]');
 ylabel('|X(j\Omega)|');
 ylim([0 8]);
 
 figure
 plot(omega,abs(X2));
 title('X2');
-xlabel('\Omega [rad/sec]');
+xlabel('\Omega [rad/samp]');
 ylabel('|X(j\Omega)|');
 
 
@@ -170,7 +170,7 @@ function x_n = x_sample(T,x,y,w,n)
     figure
     plot(w,abs(X_n));
     title("X" +y +", T = " +T);
-    xlabel('\Omega [rad/sec]');
-    ylabel('| X(e^{jw}) |');
+    xlabel('\Omega [rad/samp]');
+    ylabel('|X(e^{jw})|');
     xlim([-4 4]);
 end
